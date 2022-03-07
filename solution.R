@@ -76,3 +76,25 @@ happy.party = happy %>%
 happy.party %>% 
   ggplot(aes(x = partyid)) + geom_bar(aes(weight = m.partyid))
 
+happy.finrela = happy %>% 
+  group_by(finrela, sex) %>% 
+  summarise(m.finrela = mean(as.numeric(happy), na.rm = TRUE)) 
+
+happy.finrela %>% 
+  ggplot(aes(x = finrela, fill = sex)) + 
+  geom_bar(aes(weight = m.finrela), position = position_dodge()) 
+
+#Happyness on marrage status
+
+happy.martial.sex = 
+  happy %>% group_by(marital, sex) %>% 
+  summarise(m.happy = mean(as.numeric(happy), na.rm = TRUE), 
+            size = n()) %>% 
+  arrange(m.happy)
+
+happy.martial.sex %>% 
+  ggplot(aes(x = marital, fill = sex)) + 
+  geom_bar(aes(weight = m.happy), position = position_dodge()) + 
+  labs(title = "Happiness on martial and gender", y = "Happiness")
+
+
